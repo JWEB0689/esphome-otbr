@@ -36,6 +36,5 @@ packages:
     ref: main
     files: [packages/common.yaml]
     refresh: 1d
-  # Optional S3/H2 Ethernet: copy packages/ethernet.yaml locally,
-  # uncomment its YAML, then uncomment the include below.
-  # ethernet: !include ethernet.yaml
+  # To enable the optional W5500 daughterboard, change files above to:
+  # files: [packages/common.yaml, packages/ethernet.yaml]

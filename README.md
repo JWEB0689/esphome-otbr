@@ -22,9 +22,22 @@ Examples:
 
 Thread role, network name/channel, OMR IPv6, PAN IDs, RLOC16, TX/RX counters, retries/errors, attachment attempts, parent changes/RSSI; Wi-Fi connectivity, IP, SSID/BSSID and RSSI; API status, uptime, reset reason, heap, loop time, CPU temperature and ESPHome version. Parent RSSI only publishes while attached as a child. Thread network keys are not exposed.
 
-## Optional Ethernet (commented out)
+## Optional Ethernet
 
-`packages/ethernet.yaml` is deliberately entirely commented out. For the S3/H2 W5500 daughterboard, copy it locally as `ethernet.yaml`, remove the leading comment prefixes from its YAML lines and include it as a separate package. Do not paste its top-level keys into the common file: package merging combines the network and entity sections safely.
+`packages/ethernet.yaml` is a ready-to-use optional package for the S3/H2 W5500 daughterboard. Include it alongside the common package:
+
+```yaml
+packages:
+  otbr:
+    url: https://github.com/wardmatter/esphome-otbr
+    ref: main
+    files:
+      - packages/common.yaml
+      - packages/ethernet.yaml
+    refresh: 1d
+```
+
+Omit `packages/ethernet.yaml` to leave Ethernet disabled. Package merging combines the network and entity sections safely.
 
 The C6 example does not enable Ethernet. The S3 daughterboard GPIO assignments do not apply to C6.
 Ethernet-first priority affects ordinary ESPHome traffic; current OTBR uses Wi-Fi STA as its backbone. Both interfaces must be enabled for automatic route failover. API Status reports API client connectivity, not Internet reachability. The preferred-interface sensor follows Ethernet-first connectivity, not end-to-end health.
