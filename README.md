@@ -49,3 +49,34 @@ Create secrets for `wifi_ssid`, `wifi_password`, `thread_tlv`, `otbr_api_key` (3
 The common diagnostics were compiled and run on the user's S3/H2 setup before extraction; the C6 device configuration passed validation. Both the C6 and 4MB S3/H2 configurations fetched this remote common package and passed configuration validation in ESPHome Device Builder 2026.12.0-dev on November 20, 2026. Ethernet was disabled for these checks. Config validation alone is not a hardware test; this extraction has not been reflashed.
 
 Sources: [ESPHome OpenThread](https://esphome.io/components/openthread/), [packages](https://esphome.io/components/packages/), [DevKitC-1](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32c6/esp32-c6-devkitc-1/user_guide.html).
+
+## Experimental credential sharing (C6 test only)
+
+The `epskc-prototype` branch contains an external component and optional
+`packages/credential-sharing.yaml`. It is experimental and is not included by
+`common.yaml`. The S3/H2 device is excluded from hardware testing.
+
+```yaml
+packages:
+  credential_sharing:
+    url: https://github.com/wardmatter/esphome-otbr
+    ref: epskc-prototype
+    files: [packages/credential-sharing.yaml]
+    refresh: always
+```
+
+Use alongside the main common package, an encrypted native API and ESP-IDF
+5.5.6. There is no REST API. Home Assistant provides start/stop buttons, a
+nine-digit Thread Administration One-Time Passcode (TAP), sharing state and
+remaining seconds. Starting explicitly opens a 600-second window. Reboot does
+not reopen it; stopping, session completion or OpenThread's timeout closes it.
+The code is cleared on closure. Text-sensor log messages are suppressed by the
+package, but Home Assistant/API clients can read the code and HA may record it.
+Do not add this prototype's code entity to an unauthenticated web server.
+
+The prototype uses OpenThread's cryptographic TAP generator and Ephemeral Key
+Manager, with ESPHome's OpenThread lock and Espressif's MeshCoP mDNS publisher.
+A compatible commissioner is still needed to authenticate using the TAP and
+retrieve the dataset. Native-API control is not automatic Home Assistant
+Thread credential synchronization. Full credential transfer and long-term
+stability require further testing.
