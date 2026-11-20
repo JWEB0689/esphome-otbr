@@ -33,6 +33,6 @@ Ethernet-first priority affects ordinary ESPHome traffic; current OTBR uses Wi-F
 
 Create secrets for `wifi_ssid`, `wifi_password`, `thread_tlv`, `otbr_api_key` (32-byte base64) and `otbr_ota_password`. Copy the appropriate example into Device Builder, validate and compile it, then perform the first installation over USB. No fallback AP or captive portal: OTBR requires Wi-Fi STA enabled at boot. `force_dataset: true` reapplies your configured dataset at startup.
 
-The common diagnostics were compiled and run on the user's S3/H2 setup before extraction; the C6 device configuration passed validation. Remote package integration is validated separately when consumed. Config validation alone is not a hardware test.
+The common diagnostics were compiled and run on the user's S3/H2 setup before extraction; the C6 device configuration passed validation. Both the C6 and 4MB S3/H2 configurations fetched this remote common package and passed configuration validation in ESPHome Device Builder 2026.12.0-dev on November 20, 2026. Ethernet was disabled for these checks. Config validation alone is not a hardware test; this extraction has not been reflashed.
 
 Sources: [ESPHome OpenThread](https://esphome.io/components/openthread/), [packages](https://esphome.io/components/packages/), [DevKitC-1](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32c6/esp32-c6-devkitc-1/user_guide.html).
