@@ -1,0 +1,39 @@
+# OPTIONAL ETHERNET: only for the S3/H2 board with its W5500 daughterboard.
+# Copy this file locally and uncomment the YAML lines to enable Ethernet.
+# These pins belong to that S3 board, NOT the ESP32-C6-DevKitC-1.
+# Thread border routing still uses Wi-Fi STA.
+# network:
+#   priority:
+#     - ethernet
+#     - wifi
+#
+# ethernet:
+#   type: W5500
+#   clk_pin: GPIO21
+#   mosi_pin: GPIO45
+#   miso_pin: GPIO38
+#   cs_pin: GPIO41
+#   interrupt_pin: GPIO39
+#   reset_pin: GPIO40
+#
+# binary_sensor:
+#   - platform: template
+#     name: Ethernet Connected
+#     device_class: connectivity
+#     entity_category: diagnostic
+#     lambda: return ethernet::global_eth_component->is_connected();
+#
+# text_sensor:
+#   - platform: ethernet_info
+#     ip_address:
+#       name: Ethernet IP Address
+#     mac_address:
+#       name: Ethernet MAC Address
+#   - platform: template
+#     name: Preferred Connected Interface
+#     entity_category: diagnostic
+#     update_interval: 5s
+#     lambda: |-
+#       if (ethernet::global_eth_component->is_connected()) return {"Ethernet"};
+#       if (wifi::global_wifi_component->is_connected()) return {"Wi-Fi"};
+#       return {"Disconnected"};

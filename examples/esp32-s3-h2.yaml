@@ -1,0 +1,48 @@
+# Verify your physical module's flash capacity before installing.
+esphome:
+  name: otbr-esp32-s3-h2
+  friendly_name: OTBR esp32-s3-h2
+
+esp32:
+  variant: esp32s3
+  flash_size: 4MB
+  framework:
+    type: esp-idf
+    log_level: INFO
+
+logger:
+  hardware_uart: USB_SERIAL_JTAG
+  level: INFO
+
+api:
+  encryption:
+    key: !secret otbr_api_key
+
+ota:
+  - platform: esphome
+    password: !secret otbr_ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  enable_on_boot: true
+
+openthread:
+  border_router:
+    rcp:
+      rx_pin: GPIO17
+      tx_pin: GPIO18
+      reset_pin: GPIO7
+      baud_rate: 460800
+  tlv: !secret thread_tlv
+  force_dataset: true
+
+packages:
+  diagnostics:
+    url: https://github.com/wardmatter/esphome-otbr
+    ref: main
+    files: [packages/common.yaml]
+    refresh: 1d
+  # Optional S3/H2 Ethernet: copy packages/ethernet.yaml locally,
+  # uncomment its YAML, then uncomment the include below.
+  # ethernet: !include ethernet.yaml

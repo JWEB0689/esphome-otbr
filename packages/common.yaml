@@ -1,0 +1,88 @@
+# Shared diagnostics for ESPHome OpenThread Border Routers.
+# Hardware, Wi-Fi credentials, Thread dataset and API/OTA security stay local.
+esphome:
+  min_version: 2026.11.0
+
+network:
+  enable_ipv6: true
+
+debug:
+  update_interval: 30s
+
+binary_sensor:
+  - platform: status
+    name: API Status
+    entity_category: diagnostic
+  - platform: template
+    name: Wi-Fi Connected
+    device_class: connectivity
+    entity_category: diagnostic
+    lambda: return wifi::global_wifi_component->is_connected();
+
+text_sensor:
+  - platform: openthread_info
+    role:
+      name: Thread Role
+    network_name:
+      name: Thread Network Name
+    channel:
+      name: Thread Channel
+    ip_address:
+      name: Thread IP Address
+    rloc16:
+      name: Thread RLOC16
+    pan_id:
+      name: Thread PAN ID
+    ext_pan_id:
+      name: Thread Extended PAN ID
+  - platform: wifi_info
+    ip_address:
+      name: Wi-Fi IP Address
+    ssid:
+      name: Wi-Fi SSID
+    bssid:
+      name: Wi-Fi BSSID
+  - platform: version
+    name: ESPHome Version
+    entity_category: diagnostic
+  - platform: debug
+    reset_reason:
+      name: Reset Reason
+
+sensor:
+  - platform: uptime
+    name: Uptime
+    entity_category: diagnostic
+    update_interval: 30s
+  - platform: wifi_signal
+    name: Wi-Fi Signal
+    entity_category: diagnostic
+    update_interval: 30s
+  - platform: internal_temperature
+    name: CPU Temperature
+    entity_category: diagnostic
+    update_interval: 60s
+  - platform: debug
+    free:
+      name: Free Heap
+    block:
+      name: Largest Free Heap Block
+    loop_time:
+      name: Loop Time
+  - platform: openthread_info
+    tx_total:
+      name: Thread TX Total
+    tx_retries:
+      name: Thread TX Retries
+    tx_err_cca:
+      name: Thread TX CCA Errors
+    rx_total:
+      name: Thread RX Total
+    rx_err_fcs:
+      name: Thread RX FCS Errors
+    attach_attempts:
+      name: Thread Attach Attempts
+    parent_changes:
+      name: Thread Parent Changes
+    parent_average_rssi:
+      name: Thread Parent RSSI
