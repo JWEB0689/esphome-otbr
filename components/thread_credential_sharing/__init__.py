@@ -11,7 +11,7 @@ ThreadCredentialSharing = ns.class_("ThreadCredentialSharing", cg.PollingCompone
 
 CONFIG_SCHEMA = cv.Schema({
     cv.GenerateID(): cv.declare_id(ThreadCredentialSharing),
-    cv.Required("pairing_code"): text_sensor.text_sensor_schema(entity_category="config"),
+    cv.Required("pairing_code"): text_sensor.text_sensor_schema(entity_category=ENTITY_CATEGORY_DIAGNOSTIC),
     cv.Required("state"): text_sensor.text_sensor_schema(entity_category=ENTITY_CATEGORY_DIAGNOSTIC),
     cv.Required("remaining"): sensor.sensor_schema(unit_of_measurement="s", accuracy_decimals=0, entity_category=ENTITY_CATEGORY_DIAGNOSTIC),
 }).extend(cv.polling_component_schema("1s"))

@@ -21,6 +21,7 @@ class ThreadCredentialSharing : public PollingComponent {
   sensor::Sensor *remaining_{nullptr};
   uint32_t started_{0};
   bool active_{false};
+  bool stop_pending_{false};
   bool discovery_{false};
 };
 }

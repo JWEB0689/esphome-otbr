@@ -23,6 +23,7 @@ void ThreadCredentialSharing::clear_code_() {
   remaining_->publish_state(0);
 }
 void ThreadCredentialSharing::start() {
+  stop_pending_ = false;
   if (!wifi::global_wifi_component->is_connected()) {
     state_->publish_state("Wi-Fi disconnected");
     return;
@@ -62,13 +63,16 @@ void ThreadCredentialSharing::start() {
   ESP_LOGI(TAG, "Credential sharing opened for 10 minutes");
 }
 void ThreadCredentialSharing::stop() {
+  stop_pending_ = true;
   auto lock = openthread::InstanceLock::try_acquire(10);
   if (!lock) { state_->publish_state("Stop pending"); return; }
   otBorderAgentEphemeralKeyStop(lock.get_instance());
+  stop_pending_ = false;
   clear_code_();
   state_->publish_state("Closed");
 }
 void ThreadCredentialSharing::update() {
+  if (stop_pending_) { stop(); return; }
   if (!active_) return;
   if (!wifi::global_wifi_component->is_connected() || millis() - started_ >= WINDOW_MS) {
     stop();
