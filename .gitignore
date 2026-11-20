@@ -1,3 +1,6 @@
 secrets.yaml
 .esphome/
 .validation/
+
+__pycache__/
+*.pyc
