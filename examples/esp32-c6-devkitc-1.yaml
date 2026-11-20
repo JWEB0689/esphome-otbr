@@ -22,16 +22,6 @@ ota:
   - platform: esphome
     password: !secret otbr_ota_password
 
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-  enable_on_boot: true
-
-openthread:
-  border_router: {}
-  tlv: !secret thread_tlv
-  force_dataset: true
-
 packages:
   diagnostics:
     url: https://github.com/wardmatter/esphome-otbr

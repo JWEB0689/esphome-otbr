@@ -22,11 +22,6 @@ ota:
   - platform: esphome
     password: !secret otbr_ota_password
 
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-  enable_on_boot: true
-
 openthread:
   border_router:
     rcp:
@@ -34,8 +29,6 @@ openthread:
       tx_pin: GPIO18
       reset_pin: GPIO7
       baud_rate: 460800
-  tlv: !secret thread_tlv
-  force_dataset: true
 
 packages:
   diagnostics:

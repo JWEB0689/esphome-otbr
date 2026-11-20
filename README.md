@@ -1,7 +1,7 @@
 # ESPHome OpenThread Border Router packages
 
-Shared Thread, Wi-Fi and system diagnostic entities for ESPHome 2026.11+.
-Requires an ESP32 with ESP-IDF 5.5.5 or newer, Wi-Fi STA and OpenThread configured locally.
+Shared Wi-Fi and OpenThread configuration plus Thread, Wi-Fi and system diagnostic entities for ESPHome 2026.11+.
+Requires an ESP32 with ESP-IDF 5.5.5 or newer, local secrets for Wi-Fi and the Thread dataset.
 
 ```yaml
 packages:
@@ -12,7 +12,7 @@ packages:
     refresh: 1d
 ```
 
-Keep device name, hardware/flash size, Wi-Fi credentials, Thread dataset and API/OTA credentials in your local YAML and secrets.yaml. Never publish secrets.
+The package owns `wifi:` and the common `openthread:` settings, including `device_type: FTD`, `border_router: {}`, `tlv: !secret thread_tlv` and `force_dataset: true`. Secret references resolve from the consuming device’s local `secrets.yaml`; no secret values are published. Keep device name, hardware/flash size and API/OTA security local. The S3/H2 example adds only its hardware-specific `openthread.border_router.rcp` mapping, merged into the common settings. Never publish secrets.
 
 Examples:
 - `examples/esp32-c6-devkitc-1.yaml`: official DevKitC-1, documented 8MB flash, native radio.
